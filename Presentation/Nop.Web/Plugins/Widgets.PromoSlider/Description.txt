@@ -1,0 +1,8 @@
+Group: Widgets
+FriendlyName: Promo Slider
+SystemName: Widgets.PromoSlider
+Version: 1.0
+SupportedVersions: 3.70
+Author: Alex Wolf
+DisplayOrder: 1
+FileName: Nop.Plugin.Widgets.PromoSlider.dll

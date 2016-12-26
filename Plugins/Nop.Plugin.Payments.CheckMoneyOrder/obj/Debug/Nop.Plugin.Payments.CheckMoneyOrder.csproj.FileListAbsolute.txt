@@ -1,0 +1,11 @@
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Views\PaymentCheckMoneyOrder\Configure.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Views\PaymentCheckMoneyOrder\PaymentInfo.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\web.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Description.txt
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\logo.jpg
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.dll.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.dll
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.pdb
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.csprojResolveAssemblyReference.cache
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.dll
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.pdb

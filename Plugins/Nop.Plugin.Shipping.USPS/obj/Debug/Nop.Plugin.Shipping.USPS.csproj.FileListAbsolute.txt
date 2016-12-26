@@ -1,0 +1,10 @@
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\Views\ShippingUSPS\Configure.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\web.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\Description.txt
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\logo.jpg
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\Nop.Plugin.Shipping.USPS.dll.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\Nop.Plugin.Shipping.USPS.dll
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.USPS\Nop.Plugin.Shipping.USPS.pdb
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.USPS\obj\Debug\Nop.Plugin.Shipping.USPS.dll
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.USPS\obj\Debug\Nop.Plugin.Shipping.USPS.pdb
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.USPS\obj\Debug\Nop.Plugin.Shipping.USPS.csprojResolveAssemblyReference.cache

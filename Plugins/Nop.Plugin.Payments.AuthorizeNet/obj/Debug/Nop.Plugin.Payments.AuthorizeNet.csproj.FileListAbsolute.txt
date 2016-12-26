@@ -1,0 +1,11 @@
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\Views\PaymentAuthorizeNet\Configure.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\Views\PaymentAuthorizeNet\PaymentInfo.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\web.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\Description.txt
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\logo.jpg
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\Nop.Plugin.Payments.AuthorizeNet.dll.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\Nop.Plugin.Payments.AuthorizeNet.dll
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Payments.AuthorizeNet\Nop.Plugin.Payments.AuthorizeNet.pdb
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Payments.AuthorizeNet\obj\Debug\Nop.Plugin.Payments.AuthorizeNet.csprojResolveAssemblyReference.cache
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Payments.AuthorizeNet\obj\Debug\Nop.Plugin.Payments.AuthorizeNet.dll
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Payments.AuthorizeNet\obj\Debug\Nop.Plugin.Payments.AuthorizeNet.pdb

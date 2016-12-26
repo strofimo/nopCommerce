@@ -1,0 +1,100 @@
+﻿@using Nop.Web.Framework;
+@{
+    Layout = "_AdminLayout.cshtml";
+}
+
+<div id="sliders"></div>
+<script>
+        $(document).ready(function () {
+            $("#sliders").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("ListPromoSliders", "PromoSlider"))",
+                            type: "POST",
+                            dataType: "json"
+                        },
+                        update: {
+                            url: "@Html.Raw(Url.Action("UpdatePromoSlider", "PromoSlider"))",
+                            type: "POST",
+                            dataType: "json"
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("DeletePromoSlider", "PromoSlider"))",
+                            type: "POST",
+                            dataType: "json"
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors",
+                        model: {
+                            id: "PromoSliderId",
+                            fields: {
+                                PromoSliderId: { editable: true, type: "number" },
+                                PromoSliderName: { editable: false, type: "string" },
+                                IsActive: { editable: true, type: "boolean" },
+                                PauseOnHover: { editable: true, type: "boolean" },
+                                Interval: { editable: true, type: "number" }
+                            }
+                        }
+                    },
+                    requestEnd: function (e) {
+                        if (e.type == "update") {
+                            this.read();
+                        }
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                pageable: {
+                    refresh: true,
+                    numeric: false,
+                    previousNext: false,
+                    info: false
+                },
+                editable: {
+                    confirmation: true,
+                    mode: "inline"
+                },
+                scrollable: false,
+                columns: [ {
+                    field: "PromoSliderName",
+                    title: "PromoSliderName",
+                    template: '<a href="/PromoSlider/CreateUpdatePromoSlider?PromoSliderId=#=PromoSliderId#">#=PromoSliderName#</a>',
+                    width: 150
+                }, {
+                    field: "IsActive",
+                    title: "Is Active",
+                    width: 150
+                }, {
+                    field: "Interval",
+                    title: "Interval",
+                    width: 150
+                }, {
+                    field: "PauseOnHover",
+                    title: "PauseOnHover",
+                    width: 150
+                },  {
+                    command: [{
+                        name: "edit",
+                        text: "@T("Admin.Common.Edit")"
+                    }, {
+                        name: "destroy",
+                        text: "@T("Admin.Common.Delete")"
+                    }],
+                    width: 200
+                }]
+            });
+        });
+</script>
+
+

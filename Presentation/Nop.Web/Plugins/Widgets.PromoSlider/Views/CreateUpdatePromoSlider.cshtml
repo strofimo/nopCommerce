@@ -1,0 +1,107 @@
+﻿@using Nop.Web.Framework;
+@using System.Linq;
+@using Nop.Web.Framework.UI;
+@model Nop.Plugin.Widget.PromoSlider.Domain.PromoSliderRecord
+
+@{    Layout = "_AdminLayout.cshtml"; }
+<script>
+    $(document).ready(function () {
+        $("#slider-edit").kendoTabStrip({
+            animation: {
+                open: { effects: "fadeIn" }
+            },
+            select: tabstrip_on_tab_select
+        });
+    });
+</script>
+
+<div id="slider-edit">
+    <ul>
+        <li @Html.RenderSelectedTabIndex(0, GetSelectedTabIndex())>Slider</li>
+        <li @Html.RenderSelectedTabIndex(1, GetSelectedTabIndex())>Images</li>
+    </ul>
+    <div>@CreateUpdate()</div>
+    <div>@Images()</div>
+</div>
+
+@helper CreateUpdate()
+{
+    using (Html.BeginForm())
+    {
+        <fieldset>
+            <legend><strong>Manage Your Slider</strong></legend>
+            <table class="adminContent">
+                <tr>
+                    <td class="adminData">@Html.HiddenFor(m => m.PromoSliderId)</td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.PromoSliderName):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.PromoSliderName)
+                        @Html.ValidationMessageFor(m => m.PromoSliderName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.IsActive):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.IsActive)
+                        @Html.ValidationMessageFor(m => m.IsActive)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.Interval):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.Interval)
+                        @Html.ValidationMessageFor(m => m.Interval)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.Wrap):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.Wrap)
+                        @Html.ValidationMessageFor(m => m.Wrap)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.PauseOnHover):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.PauseOnHover)
+                        @Html.ValidationMessageFor(m => m.PauseOnHover)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.ZoneName):</td>
+                    <td class="adminData">
+                        @Html.DropDownListFor(m => m.ZoneName, new SelectList(
+                        new List<string>() {
+                            "productdetails_top",
+                            "categorydetails_after_breadcrumb",
+                            "home_page_top"
+                        }))
+                        @Html.ValidationMessageFor(m => m.ZoneName)
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <br />
+        <table class="adminContent">
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="save" class="k-button" value="Save" />
+                </td>
+            </tr>
+        </table>
+    }
+}
+
+@helper Images()
+{
+    if (Model.PromoSliderId > 0)
+    {
+        @Html.Action("ManagePromoImages", new { PromoSliderId = Model.PromoSliderId })
+    }
+    else
+    {
+        <p>@T("Plugins.Misc.PromoSlider.CreateImageMessage")</p>
+    }
+}

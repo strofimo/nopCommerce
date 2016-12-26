@@ -1,0 +1,11 @@
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\Views\DiscountRulesHasOneProduct\Configure.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\Description.txt
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\web.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\Views\DiscountRulesHasOneProduct\ProductAddPopup.cshtml
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\logo.jpg
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\Nop.Plugin.DiscountRules.HasOneProduct.dll.config
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\Nop.Plugin.DiscountRules.HasOneProduct.dll
+D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\DiscountRules.HasOneProduct\Nop.Plugin.DiscountRules.HasOneProduct.pdb
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.DiscountRules.HasOneProduct\obj\Debug\Nop.Plugin.DiscountRules.HasOneProduct.dll
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.DiscountRules.HasOneProduct\obj\Debug\Nop.Plugin.DiscountRules.HasOneProduct.pdb
+D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.DiscountRules.HasOneProduct\obj\Debug\Nop.Plugin.DiscountRules.HasOneProduct.csprojResolveAssemblyReference.cache

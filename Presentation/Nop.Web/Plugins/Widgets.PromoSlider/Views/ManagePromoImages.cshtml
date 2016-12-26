@@ -1,0 +1,182 @@
+﻿@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI;
+@model Nop.Plugin.Widget.PromoSlider.Domain.PromoImageRecord
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#addProductPicture').click(function (e) {
+            e.preventDefault();
+
+            var PromoImageId = $("#@Html.FieldIdFor(model => model.PromoImageId)").val();
+            var PromoSliderId = $("#@Html.FieldIdFor(model => model.PromoSliderId)").val();
+            var Caption = $("#@Html.FieldIdFor(model => model.Caption)").val();
+            var Url = $("#@Html.FieldIdFor(model => model.Url)").val();
+            var FilePath = $("#@Html.FieldIdFor(model => model.FilePath)").val();
+            var DisplayOrder = $("#@Html.FieldIdFor(model => model.DisplayOrder)").val();
+
+            $('#addProductPicture').attr('disabled', true);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("CreatePromoImage", "PromoSlider"))",
+                data: {
+                    "PromoImageId": PromoImageId, "Caption": Caption, "PromoSliderId": PromoSliderId,
+                    "Url": Url, "DisplayOrder": DisplayOrder, "FilePath": FilePath
+                },
+                success: function (data) {
+                    var productpicturesGrid = $("#productpictures-grid");
+                    productpicturesGrid.data('kendoGrid').dataSource.read();
+                    $('#addProductPicture').attr('disabled', false);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to add product picture.');
+                    $('#addProductPicture').attr('disabled', false);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id="productpictures-grid"></div>
+
+<div style="padding: 25px 0">
+    <form>
+        <fieldset>
+            <legend><strong>Add Image</strong></legend>
+            <table class="adminContent">
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(model => model.PromoImageId):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(model => model.PromoImageId)
+                        @Html.ValidationMessageFor(model => model.PromoImageId)
+                    </td>
+                </tr>
+                <tr>@Html.HiddenFor(model => model.PromoSliderId)</tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(model => model.Caption):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(model => model.Caption)
+                        @Html.ValidationMessageFor(model => model.Caption)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(model => model.Url):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(model => model.Url)
+                        @Html.ValidationMessageFor(model => model.Url)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(model => model.DisplayOrder):</td>
+                    <td class="adminData">
+                        @Html.EditorFor(model => model.DisplayOrder)
+                        @Html.ValidationMessageFor(model => model.DisplayOrder)
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <br />
+        <table class="adminContent">
+            <tr>
+                <td colspan="2">
+                    <input type="submit" id="addProductPicture" name="save" class="k-button" value="Save" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#productpictures-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("GetPromoImagesList", "PromoSlider", new { PromoSliderId = Model.PromoSliderId }))",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Html.Raw(Url.Action("UpdatePromoImage", "PromoSlider"))",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    destroy: {
+                        url: "@Html.Raw(Url.Action("DeletePromoImage", "PromoSlider"))",
+                        type: "POST",
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                    model: {
+                        id: "PromoSliderId",
+                        fields: {
+                            DisplayOrder: { editable: true, type: "string" },
+                            FilePath: { editable: false, type: "string" },
+                            Caption: { editable: true, type: "string" },
+                            Url: { editable: true, type: "string" },
+                            PromoImageId: { editable: false, visible: false, type: "number" },
+                            PromoSliderId: { editable: false, visible: false, type: "number" }
+                        }
+                    }
+                },
+                requestEnd: function (e) {
+                    if (e.type == "update") {
+                        this.read();
+                    }
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                numeric: false,
+                previousNext: false,
+                info: false
+            },
+            editable: {
+                confirmation: true,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [{
+                field: "FilePath",
+                title: "Image",
+                template: '<img alt="#=PromoSliderId#" src="#=FilePath#" width="150" />',
+                width: 200
+            }, {
+                field: "Caption",
+                title: "Caption",
+                width: 150
+            }, {
+                field: "Url",
+                title: "Url",
+                width: 150
+            }, {
+                field: "DisplayOrder",
+                title: "DisplayOrder",
+                width: 150
+            }, {
+                command: [{
+                    name: "edit",
+                    text: "Edit"
+                }, {
+                    name: "destroy",
+                    text: "Delete"
+                }],
+                width: 200
+            }]
+        });
+    });
+</script>
