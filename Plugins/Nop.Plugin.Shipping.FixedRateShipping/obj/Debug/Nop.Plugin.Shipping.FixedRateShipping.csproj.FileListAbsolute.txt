@@ -8,3 +8,13 @@ D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.FixedRateS
 D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.dll
 D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.pdb
 D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.csprojResolveAssemblyReference.cache
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Views\ShippingFixedRate\Configure.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Description.txt
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\web.config
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\logo.jpg
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Nop.Plugin.Shipping.FixedRateShipping.dll.config
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Nop.Plugin.Shipping.FixedRateShipping.dll
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Nop.Plugin.Shipping.FixedRateShipping.pdb
+D:\Projects\nopCommerceStudy\nopCommerce\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.csprojResolveAssemblyReference.cache
+D:\Projects\nopCommerceStudy\nopCommerce\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.dll
+D:\Projects\nopCommerceStudy\nopCommerce\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.pdb

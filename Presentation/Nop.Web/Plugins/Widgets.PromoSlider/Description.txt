@@ -1,4 +1,4 @@
-Group: Widgets
+﻿Group: Widgets
 FriendlyName: Promo Slider
 SystemName: Widgets.PromoSlider
 Version: 1.0

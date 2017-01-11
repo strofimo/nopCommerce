@@ -11,3 +11,16 @@ D:\nopCommerce-release-3.70\src\Presentation\Nop.Web\Plugins\Shipping.ByWeight\N
 D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.dll
 D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.pdb
 D:\nopCommerce-release-3.70\src\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.csprojResolveAssemblyReference.cache
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\Configure.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\EditPopup.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\_CreateOrUpdate.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\AddPopup.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\web.config
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Description.txt
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\logo.jpg
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Nop.Plugin.Shipping.ByWeight.dll.config
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Nop.Plugin.Shipping.ByWeight.dll
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Nop.Plugin.Shipping.ByWeight.pdb
+D:\Projects\nopCommerceStudy\nopCommerce\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.dll
+D:\Projects\nopCommerceStudy\nopCommerce\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.pdb
+D:\Projects\nopCommerceStudy\nopCommerce\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.csprojResolveAssemblyReference.cache

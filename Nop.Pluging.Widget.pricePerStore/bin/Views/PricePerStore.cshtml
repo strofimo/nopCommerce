@@ -1,0 +1,213 @@
+﻿@using Nop.Web.Framework;
+@model Nop.Plugin.Misc.PricePerStore.Domain.ProductPriceFieldRecord
+<script>
+    // element ids
+    var AvailableForPreOrderElemId = "@Html.FieldIdFor(model => model.StoreAvailableForPreOrder)"
+    var CallForPriceElemId = "@Html.FieldIdFor(model => model.StoreCallForPrice)"
+    var CustomerEntersPriceElemId = "@Html.FieldIdFor(model => model.StoreCustomerEntersPrice)"
+    var DisableBuyButtonElemId = "@Html.FieldIdFor(model => model.StoreDisableBuyButton)"
+    var DisableWishlistButtonElemId = "@Html.FieldIdFor(model => model.StoreDisableWishlistButton)"
+    var IsTaxExemptElemId = "@Html.FieldIdFor(model => model.StoreIsTaxExempt)"
+    var IsTelecommunicationsOrBroadcastingOrElectronicServicesElemId = "@Html.FieldIdFor(model => model.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices)"
+    var OldPriceElemId = "@Html.FieldIdFor(model => model.StoreOldPrice)"
+    var PriceElemId = "@Html.FieldIdFor(model => model.StorePrice)"
+    var ProductCostElemId = "@Html.FieldIdFor(model => model.StoreProductCost)"
+    var SpecialPriceElemId = "@Html.FieldIdFor(model => model.StoreSpecialPrice)"
+    var SpecialPriceEndDateTimeUtcElemId = "@Html.FieldIdFor(model => model.StoreSpecialPriceEndDateTimeUtc)"
+    var SpecialPriceStartDateTimeUtcElemId = "@Html.FieldIdFor(model => model.StoreSpecialPriceStartDateTimeUtc)"
+    var storeId;
+    var productId = "@Model.StoreProductId"
+    var modelId = "@Model.Id";
+    function onSelect(e)
+    {
+        var dataItem = this.dataItem(e.item.index());
+        storeId = dataItem.Id;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetProductFieldsByStore", "PricePerStore"))",
+            data: {"productId": @Model.StoreProductId, "storeId": dataItem.Id },
+            success: function(data)
+            {
+                $('#'+PriceElemId).val(data.Price).change();
+                $('#'+AvailableForPreOrderElemId).val(data.AvailableForPreOrder).change();
+                $('#'+CallForPriceElemId).val(data.CallForPrice).change();
+                $('#'+CustomerEntersPriceElemId).val(data.CustomerEntersPrice).change();
+                $('#'+DisableBuyButtonElemId).val(data.DisableBuyButton).change();
+                $('#'+DisableWishlistButtonElemId).val(data.DisableWishlistButton).change();
+                $('#'+IsTaxExemptElemId).val(data.IsTaxExempt).change();
+                $('#'+IsTelecommunicationsOrBroadcastingOrElectronicServicesElemId).val(data.IsTelecommunicationsOrBroadcastingOrElectronicServices).change();
+                $('#'+OldPriceElemId).val(data.OldPrice).change();
+                $('#'+ProductCostElemId).val(data.ProductCost).change();
+                $('#'+SpecialPriceElemId).val(data.SpecialPrice).change();
+                $('#'+SpecialPriceEndDateTimeUtcElemId).val(data.SpecialPriceEndDateTimeUtc).change();
+                $('#'+SpecialPriceStartDateTimeUtcElemId).val(data.SpecialPriceStartDateTimeUtc).change();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to load prices fields');
+            }
+        });
+    }
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetProductStores", "PricePerStore"))",
+            data: {"ProductId": @Model.StoreProductId },
+        success: function (data) {
+           $('#storesId').kendoComboBox({
+                dataTextField: "Name",
+                dataValueField: "Id",
+                dataSource: data,
+                select: onSelect,
+                filter: "contains",
+                suggest: true,
+                index: 0
+           });
+           var fabric = $("#storesId").data("kendoComboBox");
+
+           fabric.input.attr("readonly", true)
+                   .on("keydown", function(e) {
+                       if (e.keyCode === 8) {
+                           e.preventDefault();
+                       }
+                   });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to load product stores');
+            $('#addProductPicture').attr('disabled', false);
+        }
+    });
+        $('#addProductStorePrice').click(function (e) {
+            e.preventDefault();
+            var AvailableForPreOrder = $("#"+AvailableForPreOrderElemId).val();
+            var CallForPrice = $("#"+CallForPriceElemId).val();
+            var CustomerEntersPrice = $("#"+CustomerEntersPriceElemId).val();
+            var DisableBuyButton = $("#"+DisableBuyButtonElemId).val();
+            var DisableWishlistButton = $("#"+DisableWishlistButtonElemId).val();
+            var IsTaxExempt = $("#"+IsTaxExemptElemId).val();
+            var IsTelecommunicationsOrBroadcastingOrElectronicServices = $("#"+IsTelecommunicationsOrBroadcastingOrElectronicServicesElemId).val();
+            var OldPrice = $("#"+OldPriceElemId).val();
+            var Price = $("#"+PriceElemId).val();
+            var ProductCost = $("#"+ProductCostElemId).val();
+            var SpecialPrice = $("#"+SpecialPriceElemId).val();
+            var SpecialPriceEndDateTimeUtc = $("#"+SpecialPriceEndDateTimeUtcElemId).val();
+            var SpecialPriceStartDateTimeUtc = $("#"+SpecialPriceStartDateTimeUtcElemId).val();
+            $('#addProductStorePrice').attr('disabled', true);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("CreateUpdatePricePerStore", "PricePerStore"))",
+                data: {
+                    "AvailableForPreOrder": AvailableForPreOrder, "CallForPrice": CallForPrice, "CustomerEntersPrice": CustomerEntersPrice,
+                    "DisableBuyButton": DisableBuyButton, "DisableWishlistButton": DisableWishlistButton, "Id": modelId,
+                    "IsTaxExempt": IsTaxExempt, "IsTelecommunicationsOrBroadcastingOrElectronicServices": IsTelecommunicationsOrBroadcastingOrElectronicServices, "OldPrice": OldPrice,
+                    "Price": Price, "ProductCost": ProductCost, "ProductCost": ProductCost,
+                    "ProductId": ProductId, "SpecialPrice": SpecialPrice, "CallForPrice": CallForPrice,
+                    "SpecialPriceEndDateTimeUtc": SpecialPriceEndDateTimeUtc, "SpecialPriceStartDateTimeUtc": SpecialPriceStartDateTimeUtc, "StoreId": storeId,
+                },
+                success: function (data) {
+                    $('#addProductStorePrice').attr('disabled', false);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to add product picture.');
+                    $('#addProductStorePrice').attr('disabled', false);
+                }
+            });
+            return false;
+        });
+    });
+    //# sourceURL=dynamicScript2.js
+</script>
+<label>Store:</label><input style="margin-left:5px" id="storesId" />
+<div id="productPriceId"></div>
+    <fieldset>
+        <legend><strong>Add Price per store</strong></legend>
+        <table class="adminContent">
+                <td class="adminTitle">@Html.NopLabelFor( model => model.StoreOldPrice):</td>
+                <td class="adminData">
+                    @Html.EditorFor( model => model.StoreOldPrice)
+                    @Html.ValidationMessageFor( model => model.StoreOldPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor( model => model.StorePrice):</td>
+                <td class="adminData">
+                    @Html.EditorFor( model => model.StorePrice)
+                    @Html.ValidationMessageFor( model => model.StorePrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor( model => model.StoreSpecialPrice):</td>
+                <td class="adminData">
+                    @Html.EditorFor( model => model.StoreSpecialPrice)
+                    @Html.ValidationMessageFor( model => model.StoreSpecialPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor( model => model.StoreSpecialPriceEndDateTimeUtc):</td>
+                <td class="adminData">
+                    @Html.EditorFor( model => model.StoreSpecialPriceEndDateTimeUtc)
+                    @Html.ValidationMessageFor( model => model.StoreSpecialPriceEndDateTimeUtc)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor( model => model.StoreSpecialPriceStartDateTimeUtc):</td>
+                <td class="adminData">
+                    @Html.EditorFor( model => model.StoreSpecialPriceStartDateTimeUtc)
+                    @Html.ValidationMessageFor( model => model.StoreSpecialPriceStartDateTimeUtc)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.StoreAvailableForPreOrder):</td>
+                <td class="adminData">
+                    @Html.CheckBoxFor(model => model.StoreAvailableForPreOrder)
+                    @Html.ValidationMessageFor(model => model.StoreAvailableForPreOrder)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.StoreCallForPrice):</td>
+                <td class="adminData">
+                    @Html.CheckBoxFor(model => model.StoreCallForPrice)
+                    @Html.ValidationMessageFor(model => model.StoreCallForPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.StoreCustomerEntersPrice):</td>
+                <td class="adminData">
+                    @Html.CheckBoxFor(model => model.StoreCustomerEntersPrice)
+                    @Html.ValidationMessageFor(model => model.StoreCustomerEntersPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.StoreDisableWishlistButton):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.StoreDisableWishlistButton)
+                    @Html.ValidationMessageFor(model => model.StoreDisableWishlistButton)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.StoreIsTaxExempt):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.StoreIsTaxExempt)
+                    @Html.ValidationMessageFor(model => model.StoreIsTaxExempt)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices)
+                    @Html.ValidationMessageFor(model => model.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices)
+                </td>
+            </tr>
+            <tr>
+</table>
+    </fieldset>
+    <br />
+    <table class="adminContent">
+        <tr>
+            <td colspan="2">
+                <input type="button" id="addProductStorePrice" name="save" class="k-button" value="Save" />
+            </td>
+        </tr>
+    </table>

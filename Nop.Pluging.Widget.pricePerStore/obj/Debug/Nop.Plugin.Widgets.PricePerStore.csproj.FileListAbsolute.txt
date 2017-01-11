@@ -1,0 +1,11 @@
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\Description.txt
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\app.conf
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\Views\EditProductPricePerStorePartial.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\Views\PricePerStore.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\Views\ProductTab.cshtml
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\web.config
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\Nop.Plugin.Widgets.PricePerStore.dll
+D:\Projects\nopCommerceStudy\nopCommerce\Presentation\Nop.Web\Plugins\Widgets.PricePerStore\Nop.Plugin.Widgets.PricePerStore.pdb
+D:\Projects\nopCommerceStudy\nopCommerce\Nop.Pluging.Widget.pricePerStore\obj\Debug\Nop.Plugin.Widgets.PricePerStore.csprojResolveAssemblyReference.cache
+D:\Projects\nopCommerceStudy\nopCommerce\Nop.Pluging.Widget.pricePerStore\obj\Debug\Nop.Plugin.Widgets.PricePerStore.dll
+D:\Projects\nopCommerceStudy\nopCommerce\Nop.Pluging.Widget.pricePerStore\obj\Debug\Nop.Plugin.Widgets.PricePerStore.pdb

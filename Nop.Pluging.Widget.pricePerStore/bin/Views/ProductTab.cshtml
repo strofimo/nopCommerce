@@ -1,0 +1,26 @@
+﻿@model Nop.Admin.Models.Catalog.ProductModel
+<script>
+    $(function () {
+        var kTabs = $('#product-edit').data('kendoTabStrip');
+        kTabs.append({
+            text: '<strong id="pricePerStoreTabId">Price per Store</strong>',
+            encoded: false,
+            contentUrl: '@Url.Action( "EditPricePerStore", "PricePerStore", new RouteValueDictionary { { "Namespaces", "Nop.Plugin.Misc.PricePerStore.Controllers" }, { "area", null }, {"id", Model.Id } })'
+        });
+        setVisiblePricePerStoreTab();
+        $('#LimitedToStores').on('change', setVisiblePricePerStoreTab);
+        $('#pnl-available-stores input').on('change', setVisiblePricePerStoreTab);
+        function setVisiblePricePerStoreTab()
+        {
+            if ($('#LimitedToStores').is(':checked') && $('#pnl-available-stores:has(input:checked)').length > 0) {
+                $('li:has(#pricePerStoreTabId)').show();
+                $('#group-prices').hide;
+            }
+            else {
+                $('li:has(#pricePerStoreTabId)').hide();
+                $('#group-prices').show();
+            }
+        }
+    });
+
+</script>

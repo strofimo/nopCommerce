@@ -1,2 +1,2 @@
 DataProvider: sqlserver
-DataConnectionString: Data Source=SERGEYPC\SQLEXPRESS;Initial Catalog=nopCommerce;Integrated Security=True;Persist Security Info=False
+DataConnectionString: Data Source=SERGEYPC\SQLEXPRESS;Initial Catalog=nopcommerce;Integrated Security=True;Persist Security Info=False
