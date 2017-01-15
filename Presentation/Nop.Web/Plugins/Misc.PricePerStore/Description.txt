@@ -1,0 +1,8 @@
+﻿Group: Misc
+FriendlyName:Price per store
+SystemName: Misc.PricePerStore
+Version: 1.0
+SupportedVersions: 3.70
+Author: Sergey
+DisplayOrder: 1
+FileName: Nop.Plugin.Misc.PricePerStore.dll

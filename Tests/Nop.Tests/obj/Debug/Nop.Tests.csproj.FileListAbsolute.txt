@@ -15,4 +15,3 @@ D:\Projects\nopCommerceStudy\nopCommerce\Tests\Nop.Tests\bin\Debug\nunit.framewo
 D:\Projects\nopCommerceStudy\nopCommerce\Tests\Nop.Tests\bin\Debug\Rhino.Mocks.xml
 D:\Projects\nopCommerceStudy\nopCommerce\Tests\Nop.Tests\obj\Debug\Nop.Tests.dll
 D:\Projects\nopCommerceStudy\nopCommerce\Tests\Nop.Tests\obj\Debug\Nop.Tests.pdb
-D:\Projects\nopCommerceStudy\nopCommerce\Tests\Nop.Tests\obj\Debug\Nop.Tests.csprojResolveAssemblyReference.cache

@@ -87,11 +87,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.ExchangeRate.Ecb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Widget.PromoSlider", "Plugins\Nop.Plugin.Widget.PromoSlider\Nop.Plugin.Widget.PromoSlider.csproj", "{179073BF-BDA3-4683-A092-43DAA5F5BACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Misc.PricePerStore", "Nop.Pluging.Widget.pricePerStore\Nop.Plugin.Misc.PricePerStore.csproj", "{E2878145-DBB6-4018-9ED9-2C30D10CFF31}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6BDA8332-939F-45B7-A25E-7A797260AE59} = {6BDA8332-939F-45B7-A25E-7A797260AE59}
-		{CCD7F2C9-6A2C-4CF0-8E89-076B8FC0F144} = {CCD7F2C9-6A2C-4CF0-8E89-076B8FC0F144}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Misc.PricePerStore", "Plugins\Nop.Pluging.Widget.pricePerStore\Nop.Plugin.Misc.PricePerStore.csproj", "{E2878145-DBB6-4018-9ED9-2C30D10CFF31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
