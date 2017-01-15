@@ -112,6 +112,7 @@
     <Compile Include="Domain\ProductPriceFieldRecord.cs" />
     <Compile Include="Domain\ProductPriceFieldRecordValidation.cs" />
     <Compile Include="EventConsumers\AdminTabEventConsumer.cs" />
+    <Compile Include="EventConsumers\ProductEventConsumer.cs" />
     <Compile Include="PricePerStorePluging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomPriceService.cs" />

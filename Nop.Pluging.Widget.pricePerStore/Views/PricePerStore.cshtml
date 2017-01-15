@@ -15,9 +15,10 @@
     var specialPriceElemId = "@Html.FieldIdFor(model => model.Record.StoreSpecialPrice)"
     var specialPriceEndDateTimeUtcElemId = "@Html.FieldIdFor(model => model.Record.StoreSpecialPriceEndDateTimeUtc)"
     var specialPriceStartDateTimeUtcElemId = "@Html.FieldIdFor(model => model.Record.StoreSpecialPriceStartDateTimeUtc)"
-    var data = @Html.Raw(Model.StoresJson)
+    var data = @Html.Raw(Model.StoresJson);
     var storeId = data[0].Id;
     var productId = "@Model.Record.StoreProductId";
+
     function onSelect(e)
     {
         var dataItem = this.dataItem(e.item.index());
@@ -30,7 +31,8 @@
             success: function(data)
             {
                 setTitle(data.Id!=0);
-                $('#alertBoxId').hide();
+                $('#successAlertBoxId').hide();
+                $('#errorAlertBoxId').hide();
                 setFieldsAfterAjax(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -72,7 +74,8 @@
 
     $(document).ready(function () {
         setTitle(@Model.Record.Id != 0);
-        $('#alertBoxId').hide();
+        $('#errorAlertBoxId').hide();
+        $('#successAlertBoxId').hide();
         $('#storesId').kendoComboBox({
             dataTextField: "Name",
             dataValueField: "Id",
@@ -120,12 +123,21 @@
                 success: function (data) {
                     $('#addProductStorePrice').attr('disabled', false);
                     setTitle(true);
-                    $('#alertBoxId').show();
-                    $('#alertBoxId').html('Prices per store saved Successfully!');
+
+                    $('#errorAlertBoxId').hide();
+                    $('#successAlertBoxId').show();
+                    $('#successAlertBoxId').html('Prices per store saved Successfully!');
                 },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to add product picture.');
+                error: function (response) {
                     $('#addProductStorePrice').attr('disabled', false);
+                    var errorHtml='<ul>';
+                    $.each(response.responseJSON.errors,function(){
+                        errorHtml+="<li>"+this+"</li>"
+                    });
+                    errorHtml+='</ul>';
+                    $('#errorAlertBoxId').html(errorHtml);
+                    $('#errorAlertBoxId').show();
+                    $('#successAlertBoxId').hide();
                 }
             });
             return false;
@@ -142,9 +154,8 @@
                     $('#alertBoxId').html('Prices per store removed Successfully!');
                     setFieldsAfterAjax(data);
                 },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to add product picture.');
-                    $('#alertBoxId').show();
+                error: function (response) {
+                    
                     $('#addProductStorePrice').attr('disabled', false);
                 }
             });
@@ -154,7 +165,8 @@
 </script>
 <label>Stores:</label><input style="margin-left:7px" id="storesId" />
 
-<div id="alertBoxId" class="message-box message-box-success"></div>
+<div id="successAlertBoxId" class="message-box message-box-success"></div>
+<div id="errorAlertBoxId" class="validation-summary-errors"></div>
     <fieldset>
         <legend>
             <strong id="titleId">Update Price per store</strong>

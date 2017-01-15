@@ -12,6 +12,7 @@ using Nop.Plugin.Misc.PricePerStore.ViewModels;
 using Nop.Services.Stores;
 using System.Web.Script.Serialization;
 using Nop.Plugin.Misc.PricePerStore.Services;
+using System.Net;
 
 namespace Nop.Plugin.Misc.PricePerStore.Controllers
 {
@@ -48,12 +49,13 @@ namespace Nop.Plugin.Misc.PricePerStore.Controllers
             if (ModelState.IsValid)
             {
                 storeService.CreateUpdatePricePerStore(data);
-                return Json("ok");
+                return Json(new { success = false });
             }
             else
             {
-                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                return Json(allErrors);
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors).Select(n=>n.ErrorMessage);
+                return Json(new { success = false, errors = allErrors });
             }
 
             
