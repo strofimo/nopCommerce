@@ -1,0 +1,25 @@
+﻿<script>
+    $(function () {
+        var kTabs = $('#product-edit').data('kendoTabStrip');
+        kTabs.append({
+            text: '<strong id="storeProductInventoryTabId">Stock per store</strong>',
+            encoded: false,
+            contentUrl: '@Url.Action("EditProductInventory", "StoreProductInventory", new RouteValueDictionary { { "Namespaces", "Nop.Plugin.Misc.StoreProductInventory.Controllers" }, { "area", null }, { "productId", Model.Id } })'
+        });
+        setVisibleStockPerStoreTab();
+        function setVisibleStockPerStoreTab()
+        {
+            if ($('#ManageInventoryMethodId option:selected').text() == 'Track inventory' && $('#LimitedToStores').is(':checked')
+                && $('#pnl-available-stores:has(input:checked)').length > 0)
+            {
+                $('li:has(#storeProductInventoryTabId)').show();
+                $('#group-inventory').hide();
+            }
+            else {
+                $('li:has(#storeProductInventoryTabId)').hide();
+                $('group-inventory').show();
+            }
+        }
+    });
+    //# sourceURL=StoreProductInventoryTab.js
+</script>
