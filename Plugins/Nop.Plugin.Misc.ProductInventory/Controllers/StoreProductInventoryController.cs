@@ -58,12 +58,14 @@ namespace Nop.Plugin.Misc.StoreProductInventory.Controllers
             return View("~/Plugins/Misc.StoreProductInventory/Views/StoreProductInventory.cshtml", model);
         }
 
+        [HttpPost]
         public JsonResult GetStockFieldsByStore(int storeId, int productId)
         {
             var data = this.service.GetByStoreOrDefault(productId, storeId);
             return Json(data);
         }
 
+        [HttpPost]
         public JsonResult CreateUpdateStockPerStore(StoreProductInventoryFieldRecord data)
         {
             if (ModelState.IsValid)
@@ -79,6 +81,7 @@ namespace Nop.Plugin.Misc.StoreProductInventory.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult RemoveStockPerStore(int storeId, int productId)
         {
             service.Delete(productId,storeId);

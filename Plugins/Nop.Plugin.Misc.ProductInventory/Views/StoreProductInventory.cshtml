@@ -1,11 +1,11 @@
 ﻿@using Nop.Core.Domain.Catalog;
 @model Nop.Plugin.Misc.ProductInventory.ViewModels.StoreProductInventoryViewModel
 <label>Stores:</label><input style="margin-left:7px" id="storesId" />
-<div id="successAlertBoxId" class="message-box message-box-success"></div>
-<div id="errorAlertBoxId" class="validation-summary-errors"></div>
+<div id="successStockAlertBoxId" class="message-box message-box-success"></div>
+<div id="errorStockAlertBoxId" class="validation-summary-errors"></div>
 <fieldset>
     <legend>
-        <strong id="titleId">Update Stock per store</strong>
+        <strong id="stocktitleId">Update Stock per store</strong>
     </legend>
     <table class="adminContent">
         <tr>
@@ -134,8 +134,8 @@
             success: function(data)
             {
                 setTitle(data.Id!=0);
-                $('#successAlertBoxId').hide();
-                $('#errorAlertBoxId').hide();
+                $('#successStockAlertBoxId').hide();
+                $('#errorStockAlertBoxId').hide();
                 setFieldsAfterAjax(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -166,7 +166,7 @@
     {
         if (isNew==false)
         {
-            $('#titleId').html('Add stock per store');
+            $('#stocktitleId').html('Add stock per store');
             $('#removeStockStorePrice').hide();
         }
         else
@@ -178,8 +178,8 @@
 
     $(document).ready(function () {
         setTitle(@Model.Record.Id != 0);
-        $('#errorAlertBoxId').hide();
-        $('#successAlertBoxId').hide();
+        $('#errorStockAlertBoxId').hide();
+        $('#successStockAlertBoxId').hide();
         $('#storesId').kendoComboBox({
             dataTextField: "Name",
             dataValueField: "Id",
@@ -227,9 +227,9 @@
                     $('#addStockStorePrice').attr('disabled', false);
                     setTitle(true);
 
-                    $('#errorAlertBoxId').hide();
-                    $('#successAlertBoxId').show();
-                    $('#successAlertBoxId').html('Stock per store saved Successfully!');
+                    $('#errorStockAlertBoxId').hide();
+                    $('#successStockAlertBoxId').show();
+                    $('#successStockAlertBoxId').html('Stock per store saved Successfully!');
                 },
                 error: function (response) {
                     $('#addStockStorePrice').attr('disabled', false);
@@ -238,9 +238,9 @@
                         errorHtml+="<li>"+this+"</li>"
                     });
                     errorHtml+='</ul>';
-                    $('#errorAlertBoxId').html(errorHtml);
-                    $('#errorAlertBoxId').show();
-                    $('#successAlertBoxId').hide();
+                    $('#errorStockAlertBoxId').html(errorHtml);
+                    $('#errorStockAlertBoxId').show();
+                    $('#successStockAlertBoxId').hide();
                 }
             });
             return false;

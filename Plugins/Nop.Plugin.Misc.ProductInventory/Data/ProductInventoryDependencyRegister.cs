@@ -15,6 +15,7 @@ using Nop.Plugin.Misc.ProductInventory.Data;
 using Nop.Plugin.Misc.StoreProductInventory.Domain;
 using Nop.Plugin.Misc.ProductInventory.Services;
 using Nop.Core.Domain.Catalog;
+using Nop.Services.Catalog;
 
 namespace Nop.Plugin.Misc.StoreProductInventory.Data
 {
@@ -40,8 +41,8 @@ namespace Nop.Plugin.Misc.StoreProductInventory.Data
                 .WithParameter(ResolvedParameter.ForNamed<IDbContext>(CONTEXT_NAME))
                 .InstancePerLifetimeScope();
             
-            builder.RegisterType<CustomProductRepository>()
-                .As<IRepository<Product>>()
+            builder.RegisterType<CustomProductService>()
+                .As<IProductService>()
                 .InstancePerLifetimeScope();
                 
             builder.RegisterType<StoreProductInventoryService>()
