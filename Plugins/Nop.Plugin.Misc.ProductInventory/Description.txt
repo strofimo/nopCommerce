@@ -1,8 +1,0 @@
-﻿Group: Misc
-FriendlyName:Stock per store
-SystemName: Misc.StoreProductInventory
-Version: 1.0
-SupportedVersions: 3.70
-Author: Sergey
-DisplayOrder: 1
-FileName: Nop.Plugin.Misc.StoreProductInventory.dll

@@ -24,5 +24,3 @@ Tax.FixedRate
 Tax.CountryStateZip
 Widgets.GoogleAnalytics
 Widgets.NivoSlider
-Widgets.PromoSlider
-Misc.PricePerStore
