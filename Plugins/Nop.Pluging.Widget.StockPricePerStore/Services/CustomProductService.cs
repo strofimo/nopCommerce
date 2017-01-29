@@ -37,20 +37,24 @@ namespace Nop.Plugin.Misc.StockPricePerStore.Services
             this.priceRepository = priceRepository;
         }
 
-        private T SyncListProduct<T>(T list) where T: IEnumerable<Product>
+        private T SyncListProduct<T>(T list) where T : IEnumerable<Product>
         {
-            ProductInventoryFieldRecord record;
+            ProductInventoryFieldRecord stockRecord;
             var ids = list.Select(n => n.Id).ToList();
             var stockdata = this.stockRepository.Table.Where(n => ids.Contains(n.ProductId) && n.StoreId == storeContext.CurrentStore.Id).ToList();
-            var priceData = this.priceRepository.Table.Where(n=> ids.Contains(n.StoreProductId) && n.StoreId==storeContext.CurrentStore.Id);
+            var priceData = this.priceRepository.Table.Where(n => ids.Contains(n.StoreProductId) && n.StoreId == storeContext.CurrentStore.Id);
             foreach (var n in list)
             {
-                record = stockdata.FirstOrDefault(m => m.ProductId == n.Id);
-                if (record != null)
+                stockRecord = stockdata.FirstOrDefault(m => m.ProductId == n.Id);
+                if (stockRecord != null)
                 {
-                    UpdateWithInventoryProduct(n, record);
+                    UpdateWithInventoryProduct(n, stockRecord);
                 }
-
+                var priceRecord = priceData.FirstOrDefault(m => m.StoreProductId == n.Id);
+                if (priceRecord != null)
+                {
+                    UpdateWithPriceProduct(n, priceRecord);
+                }
             }
             return list;
         }
@@ -60,7 +64,7 @@ namespace Nop.Plugin.Misc.StockPricePerStore.Services
             if (product != null)
             {
                 var priceData = this.priceRepository.Table.FirstOrDefault(n => n.StoreProductId == product.Id && n.StoreId == storeContext.CurrentStore.Id);
-                var stockData = this.stockRepository.Table.FirstOrDefault(n=>n.ProductId == product.Id && n.StoreId == storeContext.CurrentStore.Id);
+                var stockData = this.stockRepository.Table.FirstOrDefault(n => n.ProductId == product.Id && n.StoreId == storeContext.CurrentStore.Id);
                 if (stockData != null)
                 {
                     UpdateWithInventoryProduct(product, stockData);

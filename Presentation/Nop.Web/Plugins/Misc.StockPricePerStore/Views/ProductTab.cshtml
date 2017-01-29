@@ -1,0 +1,44 @@
+﻿
+<script>
+    $(function () {
+        var kTabs = $('#product-edit').data('kendoTabStrip');
+        var selectedStores = @Html.Raw(Model.JsonStores);
+        var preview = null;
+        selectedStores.forEach(function (data)
+        {
+          var newTab =  kTabs.append({
+                text: '<strong id="StockPricePerStoreTabId">'+data.Name+'</strong>',
+                encoded: false,
+                contentUrl: '@Url.Action("EditStockPricePerStore", "StockPricePerStore", new RouteValueDictionary { { "Namespaces", "Nop.Plugin.Misc.StockPricePerStore.Controllers" }, { "area", null }, { "productId", Model.ProductId } })'+'&StoreId='+data.Id
+            });
+        })
+        kTabs.bind("select", onSelect);
+        function onSelect (e) {       
+            if (preview!=null)
+            {
+                var div = kTabs.contentElement($(preview).index());
+                $(div).empty();
+                kTabs.reload($(this));
+            }
+            if ($(e.item).find('#StockPricePerStoreTabId').length !=0)
+            {
+                preview = e.item;
+            }
+        }
+        setVisibleStockPricePerStoreTab();
+        function setVisibleStockPricePerStoreTab()
+        {
+            if ($('#LimitedToStores').is(':checked') && $('#pnl-available-stores:has(input:checked)').length > 0) {
+                $('li:has(#StockPricePerStoreTabId)').show();
+                $('#group-prices').hide();
+                $('#group-inventory').hide();
+            }
+            else {
+                $('li:has(#StockPricePerStoreTabId)').hide();
+                $('#group-prices').show();
+                $('#group-inventory').show();
+            }
+        }
+    });
+    //# sourceURL=dynamicScript3.js
+</script>
