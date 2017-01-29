@@ -38,6 +38,10 @@ namespace Nop.Plugin.Misc.StockPricePerStore.Controllers
             this.shippingService = shippingService;
         }
 
+        public ActionResult Configuration()
+        {
+            return null;
+        }
         public ActionResult EditStockPricePerStore(int productId,int storeId)
         {
             StockPricePerStoreViewModel model = new StockPricePerStoreViewModel() { WarehouseList = new List<SelectListItem>() };

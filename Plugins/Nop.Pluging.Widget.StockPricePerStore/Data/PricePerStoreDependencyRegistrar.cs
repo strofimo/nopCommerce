@@ -16,6 +16,7 @@ using Nop.Plugin.Misc.StockPricePerStore.Services;
 using Nop.Services.Catalog;
 using Nop.Core.Caching;
 using Nop.Plugin.Misc.ProductInventory.Services;
+using Nop.Core.Plugins;
 
 namespace Nop.Plugin.Misc.StockPricePerStore.Data
 {
@@ -54,7 +55,21 @@ namespace Nop.Plugin.Misc.StockPricePerStore.Data
             builder.RegisterType<StockProductService>()
                 .As<IStockProductService>()
                 .InstancePerLifetimeScope();
-            
+
+            var types = typeFinder.FindClassesOfType<IPluginFinder>(true);
+
+            if (types.Count() == 1)
+            {
+                var plugins = Activator.CreateInstance(types.First()) as IPluginFinder;
+                var descr = plugins.GetPluginDescriptorBySystemName("Misc.StockPricePerStore");
+
+                if (descr == null || descr.Installed == false)
+                {
+                    return;
+                }
+            }
+
+
             builder.RegisterType<CustomProductService>()
                .As<IProductService>();
                

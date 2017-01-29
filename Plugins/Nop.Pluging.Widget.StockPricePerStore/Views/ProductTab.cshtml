@@ -31,10 +31,12 @@
             if ($('#LimitedToStores').is(':checked') && $('#pnl-available-stores:has(input:checked)').length > 0) {
                 $('li:has(#StockPricePerStoreTabId)').show();
                 $('#group-prices').hide();
+                $('#group-inventory').hide();
             }
             else {
                 $('li:has(#StockPricePerStoreTabId)').hide();
                 $('#group-prices').show();
+                $('#group-inventory').show();
             }
         }
     });
