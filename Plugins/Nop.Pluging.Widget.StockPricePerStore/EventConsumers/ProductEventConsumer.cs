@@ -1,7 +1,7 @@
 ﻿using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Events;
-using Nop.Plugin.Misc.StockPricerPerStore.Services;
+using Nop.Plugin.Misc.StockPricePerStore.Services;
 using Nop.Services.Events;
 using Nop.Services.Stores;
 using System;
@@ -9,21 +9,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Nop.Plugin.Misc.StockPricerPerStore.EventConsumers
+namespace Nop.Plugin.Misc.StockPricePerStore.EventConsumers
 {
     public class ProductEventConsumer : IConsumer<EntityDeleted<StoreMapping>>
     {
-
-        private IStoreProductService service;
-        public ProductEventConsumer(IStoreProductService service)
+        private IPriceProductService priceService;
+        IStockProductService stockService;
+        public ProductEventConsumer(IPriceProductService priceService,IStockProductService stockService)
         {
-            this.service = service;
+            this.priceService = priceService;
+            this.stockService = stockService;
         }
         public void HandleEvent(EntityDeleted<StoreMapping> eventMessage)
         {
             if (eventMessage.Entity.EntityName=="Product")
             {
-                service.RemoveStockPricerPerStore(eventMessage.Entity.EntityId, eventMessage.Entity.StoreId);
+                priceService.RemoveStockPricePerStore(eventMessage.Entity.EntityId, eventMessage.Entity.StoreId);
+                stockService.Delete(eventMessage.Entity.EntityId, eventMessage.Entity.StoreId);
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nop.Plugin.Misc.StockPricerPerStore.Domain
+namespace Nop.Plugin.Misc.StockPricePerStore.Domain
 {
     public class ProductInventoryFieldRecord: BaseEntity
     {

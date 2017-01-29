@@ -1,4 +1,4 @@
-﻿using Nop.Plugin.Misc.StockPricerPerStore.Domain;
+﻿using Nop.Plugin.Misc.StockPricePerStore.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nop.Plugin.Misc.StockPricerPerStore.Data
+namespace Nop.Plugin.Misc.StockPricePerStore.Data
 {
     public class ProductInventoryMap : EntityTypeConfiguration<ProductInventoryFieldRecord>
     {

@@ -2,29 +2,38 @@
 <script>
     $(function () {
         var kTabs = $('#product-edit').data('kendoTabStrip');
-        var selectedStores = $('#pnl-available-stores:has(input:checked)');
-        selectedStores.ForEach(function(data)
+        var selectedStores = @Html.Raw(Model.JsonStores);
+        var preview = null;
+        selectedStores.forEach(function (data)
         {
-
+          var newTab =  kTabs.append({
+                text: '<strong id="StockPricePerStoreTabId">'+data.Name+'</strong>',
+                encoded: false,
+                contentUrl: '@Url.Action("EditStockPricePerStore", "StockPricePerStore", new RouteValueDictionary { { "Namespaces", "Nop.Plugin.Misc.StockPricePerStore.Controllers" }, { "area", null }, { "productId", Model.ProductId } })'+'&StoreId='+data.Id
+            });
         })
-
-
-        kTabs.append({
-            text: '<strong id="StockPricerPerStoreTabId">Price per store</strong>',
-            encoded: false,
-            contentUrl: '@Url.Action( "EditStockPricerPerStore", "StockPricerPerStore", new RouteValueDictionary { { "Namespaces", "Nop.Plugin.Misc.StockPricerPerStore.Controllers" }, { "area", null }, { "productId", Model.Id } })'
-        });
-        setVisibleStockPricerPerStoreTab();
-       /* $('#LimitedToStores').on('change', setVisibleStockPricerPerStoreTab);*/
-        /*$('#pnl-available-stores input').on('change', setVisibleStockPricerPerStoreTab);*/
-        function setVisibleStockPricerPerStoreTab()
+        kTabs.bind("select", onSelect);
+        function onSelect (e) {       
+            if (preview!=null)
+            {
+                var div = kTabs.contentElement($(preview).index());
+                $(div).empty();
+                kTabs.reload($(this));
+            }
+            if ($(e.item).find('#StockPricePerStoreTabId').length !=0)
+            {
+                preview = e.item;
+            }
+        }
+        setVisibleStockPricePerStoreTab();
+        function setVisibleStockPricePerStoreTab()
         {
             if ($('#LimitedToStores').is(':checked') && $('#pnl-available-stores:has(input:checked)').length > 0) {
-                $('li:has(#StockPricerPerStoreTabId)').show();
+                $('li:has(#StockPricePerStoreTabId)').show();
                 $('#group-prices').hide();
             }
             else {
-                $('li:has(#StockPricerPerStoreTabId)').hide();
+                $('li:has(#StockPricePerStoreTabId)').hide();
                 $('#group-prices').show();
             }
         }

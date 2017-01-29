@@ -1,4 +1,4 @@
-﻿using Nop.Plugin.Misc.StockPricerPerStore.Domain;
+﻿using Nop.Plugin.Misc.StockPricePerStore.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Nop.Core.Domain.Catalog;
 
-namespace Nop.Plugin.Misc.StockPricerPerStore.Data
+namespace Nop.Plugin.Misc.StockPricePerStore.Data
 {
     public class ProductPriceFieldMap: EntityTypeConfiguration<ProductPriceFieldRecord>
     {
         public ProductPriceFieldMap()
         {
-            ToTable("StockPricerPerStore_Product");
+            ToTable("StockPricePerStore_Product");
             HasKey(n => n.Id);
             Property(n => n.StoreAvailableForPreOrder);
             Property(n => n.StoreCallForPrice);

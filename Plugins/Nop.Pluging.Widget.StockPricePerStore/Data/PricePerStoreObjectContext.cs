@@ -6,12 +6,12 @@ using Autofac;
 using Nop.Core;
 using System.Data.Entity.Infrastructure;
 
-namespace Nop.Plugin.Misc.StockPricerPerStore.Data
+namespace Nop.Plugin.Misc.StockPricePerStore.Data
 {
-    public class StockPricerPerStoreObjectContext : DbContext, IDbContext
+    public class StockPricePerStoreObjectContext : DbContext, IDbContext
     {
 
-        public StockPricerPerStoreObjectContext(string connectionString): base(connectionString) { }
+        public StockPricePerStoreObjectContext(string connectionString): base(connectionString) { }
 
         public bool AutoDetectChangesEnabled
         {
@@ -73,14 +73,14 @@ namespace Nop.Plugin.Misc.StockPricerPerStore.Data
 
         public void Install()
         {
-            Database.SetInitializer<StockPricerPerStoreObjectContext>(null);
+            Database.SetInitializer<StockPricePerStoreObjectContext>(null);
             Database.ExecuteSqlCommand(CreateDatabaseInstallationScript());
             SaveChanges();
         }
 
         public void Uninstall()
         {
-            this.DropPluginTable("StockPricerPerStore_Product");
+            this.DropPluginTable("StockPricePerStore_Product");
             this.DropPluginTable("InventoryPerStore_Product");
         }
 

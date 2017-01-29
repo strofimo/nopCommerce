@@ -1,0 +1,378 @@
+﻿@using Nop.Web.Framework;
+@using Nop.Core.Domain.Catalog;
+@model Nop.Plugin.Misc.StockPricePerStore.ViewModels.StockPricePerStoreViewModel
+<script>
+    var storeId = '@Model.StoreId';
+    var productId = "@Model.ProductId";
+    var existsPriceRecordElemId = '@Html.FieldIdFor(model => model.ExistsPriceRecord)'
+    var existsStockRecordElemId = '@Html.FieldIdFor(model => model.ExistsStockRecord)'
+    // price element ids
+    var availableForPreOrderElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreAvailableForPreOrder)"
+    var callForPriceElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreCallForPrice)"
+    var customerEntersPriceElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreCustomerEntersPrice)"
+    var disableBuyButtonElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreDisableBuyButton)"
+    var disableWishlistButtonElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreDisableWishlistButton)"
+    var isTaxExemptElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreIsTaxExempt)"
+    var isTelecommunicationsOrBroadcastingOrElectronicServicesElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices)"
+    var oldPriceElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreOldPrice)"
+    var priceElemId = "@Html.FieldIdFor(model => model.PriceRecord.StorePrice)"
+    var productCostElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreProductCost)"
+    var specialPriceElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreSpecialPrice)"
+    var specialPriceEndDateTimeUtcElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreSpecialPriceEndDateTimeUtc)"
+    var specialPriceStartDateTimeUtcElemId = "@Html.FieldIdFor(model => model.PriceRecord.StoreSpecialPriceStartDateTimeUtc)"
+
+    //  stock elements ids
+    var storeWarehouseIdElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreWarehouseId)"
+    var storeStockQuantityElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreStockQuantity)"
+    var storeDisplayStockAvailabilityElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreDisplayStockAvailability)"
+    var storeMinStockQuantityElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreMinStockQuantity)"
+    var storeLowStockActivityIdElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreLowStockActivityId)"
+    var storeNotifyAdminForQuantityBelowElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreNotifyAdminForQuantityBelow)"
+    var storeBackorderModeIdElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreBackorderModeId)"
+    var storeOrderMinimumQuantityElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreOrderMinimumQuantity)"
+    var storeOrderMaximumQuantityElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreOrderMaximumQuantity)"
+    var storeAllowedQuantitiesElemId = "@Html.FieldIdFor(model => model.StockRecord.StoreAllowedQuantities)"
+    var storeDisplayStockQuantityElemId="@Html.FieldIdFor(model => model.StockRecord.StoreDisplayStockQuantity)"
+    var storeAllowBackInStockSubscriptionsElemId="@Html.FieldIdFor(model => model.StockRecord.StoreAllowBackInStockSubscriptions)"
+
+    $(document).ready(function () {
+        if (@Json.Encode(Model.ExistsPriceRecord) == false)
+        {
+            $('#pricePerStoreId').hide();
+        }
+        if (@Json.Encode(Model.ExistsStockRecord) == false)
+        {
+            $('#stockPerStoreId').hide();
+        }
+        $('#errorAlertBoxId').hide();
+        $('#successAlertBoxId').hide();
+        $('#addStockPriceStore').click(function (e) {
+            e.preventDefault();
+            var priceData = null;
+            var stockData  = null;
+            if ($('#'+existsPriceRecordElemId+":checked").length == 1)
+            {
+                priceData = getPriceData(); 
+            }
+            if ($('#'+existsStockRecordElemId+":checked").length == 1)
+            {
+                stockData = GetStockData();
+            }
+
+            $('#addProductStorePrice').attr('disabled', true);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("CreateUpdateStockPricePerStore", "StockPricePerStore"))",
+                data: {
+                    priceField: priceData, stockField: stockData, productId:productId,storeId: storeId
+                },
+                success: function (data) {
+                    $('#addProductStorePrice').attr('disabled', false);
+
+                    $('#errorAlertBoxId').hide();
+                    $('#successAlertBoxId').show();
+                    $('#successAlertBoxId').html('Prices per store saved Successfully!');
+                },
+                error: function (response) {
+                    $('#addProductStorePrice').attr('disabled', false);
+                    var errorHtml='<ul>';
+                    $.each(response.responseJSON.errors,function(){
+                        errorHtml+="<li>"+this+"</li>"
+                    });
+                    errorHtml+='</ul>';
+                    $('#errorAlertBoxId').html(errorHtml);
+                    $('#errorAlertBoxId').show();
+                    $('#successAlertBoxId').hide();
+                }
+            });
+            return false;
+        });
+
+        // price checkbox
+        $('#' + existsPriceRecordElemId).change(function () {
+            if (!this.checked) {
+                $('#pricePerStoreId').hide();
+            }
+            else
+            {
+                $('#pricePerStoreId').show();
+            }
+        });
+
+        // stock checkbox
+        $('#' + existsStockRecordElemId).change(function () {
+            if (!this.checked) {
+                $('#stockPerStoreId').hide();
+            }
+            else
+            {
+                $('#stockPerStoreId').show();
+            }
+        });
+
+
+
+        //Get data about Price Form
+        function getPriceData(){
+            var availableForPreOrder = $("#"+availableForPreOrderElemId).prop('checked');
+            var callForPrice = $("#"+callForPriceElemId).prop('checked');
+            var customerEntersPrice = $("#"+customerEntersPriceElemId).prop('checked');
+            var disableBuyButton = $("#"+disableBuyButtonElemId).prop('checked');
+            var disableWishlistButton = $("#"+disableWishlistButtonElemId).prop('checked');
+            var isTaxExempt = $("#"+isTaxExemptElemId).prop('checked');
+            var isTelecommunicationsOrBroadcastingOrElectronicServices = $("#"+isTelecommunicationsOrBroadcastingOrElectronicServicesElemId).prop('checked');
+            var oldPrice = $("#"+oldPriceElemId).val();
+            var price = $("#"+priceElemId).val();
+            var productCost = $("#"+productCostElemId).val();
+            var specialPrice = $("#"+specialPriceElemId).val();
+            var specialPriceEndDateTimeUtc = $("#"+specialPriceEndDateTimeUtcElemId).val();
+            var specialPriceStartDateTimeUtc = $("#"+specialPriceStartDateTimeUtcElemId).val();
+
+            var data= {
+                "StoreAvailableForPreOrder": availableForPreOrder, "StoreCallForPrice": callForPrice, "StoreCustomerEntersPrice": customerEntersPrice,
+                "StoreDisableBuyButton": disableBuyButton, "StoreDisableWishlistButton": disableWishlistButton,
+                "StoreIsTaxExempt": isTaxExempt, "StoreIsTelecommunicationsOrBroadcastingOrElectronicServices": isTelecommunicationsOrBroadcastingOrElectronicServices, "StoreOldPrice": oldPrice,
+                "StorePrice": price, "StoreProductCost": productCost, "StoreProductId": productId, "StoreSpecialPrice": specialPrice, "StoreCallForPrice": callForPrice,
+                "StoreSpecialPriceEndDateTimeUtc": specialPriceEndDateTimeUtc, "StoreSpecialPriceStartDateTimeUtc": specialPriceStartDateTimeUtc, "StoreId": storeId,
+            };
+            return data;
+        }
+
+        function GetStockData()
+        {
+            var storeWarehouseId = $("#"+storeWarehouseIdElemId).val();
+            var storeStockQuantity = $("#"+storeStockQuantityElemId).val();
+            var storeDisplayStockAvailability = $("#"+storeDisplayStockAvailabilityElemId).prop('checked');
+            var storeMinStockQuantity = $("#"+storeMinStockQuantityElemId).val();
+            var storeLowStockActivityId = $("#"+storeLowStockActivityIdElemId).val();
+            var storeNotifyAdminForQuantityBelow = $("#"+storeNotifyAdminForQuantityBelowElemId).val();
+            var storeAllowedQuantities = $("#"+storeAllowedQuantitiesElemId).val();
+            var storeBackorderModeId = $("#"+storeBackorderModeIdElemId).val();
+            var storeOrderMinimumQuantity = $("#"+storeOrderMinimumQuantityElemId).val();
+            var storeOrderMaximumQuantity = $("#"+storeOrderMaximumQuantityElemId).val();
+            var storeDisplayStockQuantity = $("#"+storeDisplayStockQuantityElemId).prop('checked');
+            var storeAllowBackInStockSubscriptions = $("#"+storeAllowBackInStockSubscriptionsElemId).prop('checked');
+
+            return {
+                "StoreWarehouseId": storeWarehouseId, "StoreStockQuantity": storeStockQuantity, "StoreDisplayStockAvailability": storeDisplayStockAvailability,
+                "StoreMinStockQuantity": storeMinStockQuantity, "StoreLowStockActivityId": storeLowStockActivityId,
+                "StoreNotifyAdminForQuantityBelow": storeNotifyAdminForQuantityBelow, "StoreAllowedQuantities": storeAllowedQuantities, "StoreBackorderModeId": storeBackorderModeId,
+                "StoreOrderMinimumQuantity": storeOrderMinimumQuantity, "StoreOrderMaximumQuantity": storeOrderMaximumQuantity, "ProductId": productId, "StoreDisplayStockQuantity": storeDisplayStockQuantity,
+                "StoreAllowBackInStockSubscriptions": storeAllowBackInStockSubscriptions,"StoreId": storeId,
+            };
+        }
+    });
+    //# sourceURL=dynamicScript2.js
+</script>
+
+<div id="successAlertBoxId" class="message-box message-box-success"></div>
+<div id="errorAlertBoxId" class="validation-summary-errors"></div>
+<div style="padding-bottom:10px;">
+    @Html.EditorFor(model => model.ExistsPriceRecord)
+    <label style="margin-right:8px;">Exists custom price</label>
+</div>
+<fieldset id="pricePerStoreId">
+        <legend>
+            <strong id="titleId">Price per store</strong>
+        </legend>
+        <table class="adminContent">
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreOldPrice):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreOldPrice)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreOldPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StorePrice):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StorePrice)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StorePrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreProductCost):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreProductCost)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreProductCost)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreSpecialPrice):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreSpecialPrice)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreSpecialPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreSpecialPriceEndDateTimeUtc):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreSpecialPriceEndDateTimeUtc)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreSpecialPriceEndDateTimeUtc)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreSpecialPriceStartDateTimeUtc):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreSpecialPriceStartDateTimeUtc)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreSpecialPriceStartDateTimeUtc)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreAvailableForPreOrder):</td>
+                <td class="adminData">
+                    @Html.CheckBoxFor(model => model.PriceRecord.StoreAvailableForPreOrder)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreAvailableForPreOrder)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreCallForPrice):</td>
+                <td class="adminData">
+                    @Html.CheckBoxFor(model => model.PriceRecord.StoreCallForPrice)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreCallForPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreCustomerEntersPrice):</td>
+                <td class="adminData">
+                    @Html.CheckBoxFor(model => model.PriceRecord.StoreCustomerEntersPrice)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreCustomerEntersPrice)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreDisableBuyButton):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreDisableBuyButton)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreDisableBuyButton)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreDisableWishlistButton):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreDisableWishlistButton)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreDisableWishlistButton)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreIsTaxExempt):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreIsTaxExempt)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreIsTaxExempt)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(model => model.PriceRecord.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices):</td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.PriceRecord.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices)
+                    @Html.ValidationMessageFor(model => model.PriceRecord.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices)
+                </td>
+            </tr>
+            <tr>
+        </table>
+    </fieldset>
+<br/>
+<div style="padding-bottom:10px;">
+    @Html.EditorFor(model => model.ExistsStockRecord)
+    <label style="margin-right:8px;">Exists custom stock</label>
+</div>
+<fieldset id="stockPerStoreId">
+    <legend>
+        <strong id="stocktitleId">Stock per store</strong>
+    </legend>
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreWarehouseId):</td>
+            <td class="adminData">
+                @Html.DropDownListFor(model => model.StockRecord.StoreWarehouseId, Model.WarehouseList)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreWarehouseId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreStockQuantity):</td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StockRecord.StoreStockQuantity)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreStockQuantity)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreDisplayStockAvailability):</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(model => model.StockRecord.StoreDisplayStockAvailability)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreDisplayStockAvailability)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreDisplayStockQuantity):</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(model => model.StockRecord.StoreDisplayStockQuantity)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreDisplayStockQuantity)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreMinStockQuantity):</td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StockRecord.StoreMinStockQuantity)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreMinStockQuantity)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreLowStockActivityId):</td>
+            <td class="adminData">
+                @Html.DropDownListFor(model => model.StockRecord.StoreLowStockActivityId, ((LowStockActivity)Model.StockRecord.StoreLowStockActivityId).ToSelectList())
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreLowStockActivityId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreNotifyAdminForQuantityBelow):</td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StockRecord.StoreNotifyAdminForQuantityBelow)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreNotifyAdminForQuantityBelow)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreBackorderModeId):</td>
+            <td class="adminData">
+                @Html.DropDownListFor(model => model.StockRecord.StoreBackorderModeId, ((BackorderMode)Model.StockRecord.StoreBackorderModeId).ToSelectList())
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreBackorderModeId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreAllowBackInStockSubscriptions):</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(model => model.StockRecord.StoreAllowBackInStockSubscriptions)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreBackorderModeId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreOrderMinimumQuantity):</td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StockRecord.StoreOrderMinimumQuantity)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreOrderMinimumQuantity)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreOrderMaximumQuantity):</td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StockRecord.StoreOrderMaximumQuantity)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreOrderMaximumQuantity)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(model => model.StockRecord.StoreAllowedQuantities):</td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StockRecord.StoreAllowedQuantities)
+                @Html.ValidationMessageFor(model => model.StockRecord.StoreAllowedQuantities)
+            </td>
+        </tr>
+        <tr>
+    </table>
+</fieldset>
+<br />
+<table class="adminContent">
+    <tr>
+        <td colspan="2">
+            <input type="button" id="addStockPriceStore" name="save" class="k-button" value="Save" />
+        </td>
+    </tr>
+</table>

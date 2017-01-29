@@ -1,21 +1,21 @@
 ﻿using Nop.Core.Data;
 using Nop.Data;
-using Nop.Plugin.Misc.StockPricerPerStore.Domain;
-using Nop.Plugin.Misc.StockPricerPerStore.Services;
+using Nop.Plugin.Misc.StockPricePerStore.Domain;
+using Nop.Plugin.Misc.StockPricePerStore.Services;
 using Nop.Services.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Nop.Plugin.Misc.StockPricerPerStore.Services
+namespace Nop.Plugin.Misc.StockPricePerStore.Services
 {
-    public class StoreProductService : IStoreProductService
+    public class PriceProductService : IPriceProductService
     {
         private IProductService productService;
         private IRepository<ProductPriceFieldRecord> repository;
 
-        public StoreProductService(IProductService productService, IRepository<ProductPriceFieldRecord> repository)
+        public PriceProductService(IProductService productService, IRepository<ProductPriceFieldRecord> repository)
         {
             this.productService = productService;
             this.repository = repository;
@@ -41,7 +41,7 @@ namespace Nop.Plugin.Misc.StockPricerPerStore.Services
             return res;
         }
 
-        public void CreateUpdateStockPricerPerStore(ProductPriceFieldRecord data)
+        public void CreateUpdateStockPricePerStore(ProductPriceFieldRecord data)
         {
             var record = repository.Table.FirstOrDefault(n => n.StoreProductId == data.StoreProductId && n.StoreId == data.StoreId);
             if (record == null)
@@ -95,7 +95,7 @@ namespace Nop.Plugin.Misc.StockPricerPerStore.Services
             };
         }
 
-        public void RemoveStockPricerPerStore(int productId, int storeId)
+        public void RemoveStockPricePerStore(int productId, int storeId)
         {
             var data = repository.Table.FirstOrDefault(n => n.StoreId == storeId && n.StoreProductId == productId);
             if (data!=null)
@@ -107,6 +107,11 @@ namespace Nop.Plugin.Misc.StockPricerPerStore.Services
         public ProductPriceFieldRecord GetByStore(int productId, int? storeId)
         {
             return repository.Table.FirstOrDefault(n => n.StoreId == storeId && n.StoreProductId == productId);
+        }
+
+        public List<ProductPriceFieldRecord> GetByProductIdsAndStoreId(List<int> productIds, int storeId)
+        {
+            return repository.Table.Where(n => productIds.Contains(n.StoreProductId) && n.StoreId == storeId).ToList();
         }
     }
 }

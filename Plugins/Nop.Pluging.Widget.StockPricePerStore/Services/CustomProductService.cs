@@ -19,34 +19,38 @@ using Nop.Services.Messages;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Core.Domain.Orders;
-using Nop.Plugin.Misc.StockPricerPerStore.Domain;
+using Nop.Plugin.Misc.StockPricePerStore.Domain;
 
-namespace Nop.Plugin.Misc.ProductInventory.Services
+namespace Nop.Plugin.Misc.StockPricePerStore.Services
 {
     public class CustomProductService : ProductService
     {
-        private IRepository<ProductInventoryFieldRecord> customInventory;
+        private IRepository<ProductInventoryFieldRecord> stockRepository;
+        private IRepository<ProductPriceFieldRecord> priceRepository;
         private IStoreContext storeContext;
 
-        public CustomProductService(IRepository<ProductInventoryFieldRecord> customInventory, IStoreContext storeContext, ICacheManager cacheManager, IRepository<Product> productRepository, IRepository<RelatedProduct> relatedProductRepository, IRepository<CrossSellProduct> crossSellProductRepository, IRepository<TierPrice> tierPriceRepository, IRepository<ProductPicture> productPictureRepository, IRepository<LocalizedProperty> localizedPropertyRepository, IRepository<AclRecord> aclRepository, IRepository<StoreMapping> storeMappingRepository, IRepository<ProductSpecificationAttribute> productSpecificationAttributeRepository, IRepository<ProductReview> productReviewRepository, IRepository<ProductWarehouseInventory> productWarehouseInventoryRepository, IProductAttributeService productAttributeService, IProductAttributeParser productAttributeParser, ILanguageService languageService, IWorkflowMessageService workflowMessageService, IDataProvider dataProvider, IDbContext dbContext, IWorkContext workContext, LocalizationSettings localizationSettings, CommonSettings commonSettings, CatalogSettings catalogSettings, IEventPublisher eventPublisher, IAclService aclService, IStoreMappingService storeMappingService) :
+        public CustomProductService(IRepository<ProductInventoryFieldRecord> stockRepository, IRepository<ProductPriceFieldRecord> priceRepository, IStoreContext storeContext, ICacheManager cacheManager, IRepository<Product> productRepository, IRepository<RelatedProduct> relatedProductRepository, IRepository<CrossSellProduct> crossSellProductRepository, IRepository<TierPrice> tierPriceRepository, IRepository<ProductPicture> productPictureRepository, IRepository<LocalizedProperty> localizedPropertyRepository, IRepository<AclRecord> aclRepository, IRepository<StoreMapping> storeMappingRepository, IRepository<ProductSpecificationAttribute> productSpecificationAttributeRepository, IRepository<ProductReview> productReviewRepository, IRepository<ProductWarehouseInventory> productWarehouseInventoryRepository, IProductAttributeService productAttributeService, IProductAttributeParser productAttributeParser, ILanguageService languageService, IWorkflowMessageService workflowMessageService, IDataProvider dataProvider, IDbContext dbContext, IWorkContext workContext, LocalizationSettings localizationSettings, CommonSettings commonSettings, CatalogSettings catalogSettings, IEventPublisher eventPublisher, IAclService aclService, IStoreMappingService storeMappingService) :
             base(cacheManager, productRepository, relatedProductRepository, crossSellProductRepository, tierPriceRepository, productPictureRepository, localizedPropertyRepository, aclRepository, storeMappingRepository, productSpecificationAttributeRepository, productReviewRepository, productWarehouseInventoryRepository, productAttributeService, productAttributeParser, languageService, workflowMessageService, dataProvider, dbContext, workContext, localizationSettings, commonSettings, catalogSettings, eventPublisher, aclService, storeMappingService)
         {
-            this.customInventory = customInventory;
+            this.stockRepository = stockRepository;
             this.storeContext = storeContext;
+            this.priceRepository = priceRepository;
         }
 
         private T SyncListProduct<T>(T list) where T: IEnumerable<Product>
         {
             ProductInventoryFieldRecord record;
-            var ids = list.Select(n => n.Id);
-            var data = this.customInventory.Table.Where(n => ids.Contains(n.ProductId) && n.StoreId == storeContext.CurrentStore.Id).ToList();
+            var ids = list.Select(n => n.Id).ToList();
+            var stockdata = this.stockRepository.Table.Where(n => ids.Contains(n.ProductId) && n.StoreId == storeContext.CurrentStore.Id).ToList();
+            var priceData = this.priceRepository.Table.Where(n=> ids.Contains(n.StoreProductId) && n.StoreId==storeContext.CurrentStore.Id);
             foreach (var n in list)
             {
-                record = data.FirstOrDefault(m => m.ProductId == n.Id);
+                record = stockdata.FirstOrDefault(m => m.ProductId == n.Id);
                 if (record != null)
                 {
                     UpdateWithInventoryProduct(n, record);
                 }
+
             }
             return list;
         }
@@ -55,10 +59,15 @@ namespace Nop.Plugin.Misc.ProductInventory.Services
         {
             if (product != null)
             {
-                var data = this.customInventory.Table.FirstOrDefault(n => n.ProductId == product.Id && n.StoreId == storeContext.CurrentStore.Id);
-                if (data != null)
+                var priceData = this.priceRepository.Table.FirstOrDefault(n => n.StoreProductId == product.Id && n.StoreId == storeContext.CurrentStore.Id);
+                var stockData = this.stockRepository.Table.FirstOrDefault(n=>n.ProductId == product.Id && n.StoreId == storeContext.CurrentStore.Id);
+                if (stockData != null)
                 {
-                    UpdateWithInventoryProduct(product, data);
+                    UpdateWithInventoryProduct(product, stockData);
+                }
+                if (priceData != null)
+                {
+                    UpdateWithPriceProduct(product, priceData);
                 }
             }
         }
@@ -79,6 +88,21 @@ namespace Nop.Plugin.Misc.ProductInventory.Services
             product.WarehouseId = record.StoreWarehouseId;
         }
 
+        private void UpdateWithPriceProduct(Product product, ProductPriceFieldRecord record)
+        {
+            product.AvailableForPreOrder = record.StoreAvailableForPreOrder;
+            product.CallForPrice = record.StoreCallForPrice;
+            product.CustomerEntersPrice = record.StoreCustomerEntersPrice;
+            product.DisableBuyButton = record.StoreDisableBuyButton;
+            product.DisableWishlistButton = record.StoreDisableWishlistButton;
+            product.OldPrice = record.StoreOldPrice;
+            product.Price = record.StorePrice;
+            product.SpecialPrice = record.StoreSpecialPrice;
+            product.SpecialPriceEndDateTimeUtc = record.StoreSpecialPriceEndDateTimeUtc;
+            product.SpecialPriceStartDateTimeUtc = record.StoreSpecialPriceStartDateTimeUtc;
+            product.IsTaxExempt = record.StoreIsTaxExempt;
+            product.IsTelecommunicationsOrBroadcastingOrElectronicServices = record.StoreIsTelecommunicationsOrBroadcastingOrElectronicServices;
+        }
         public override IList<Product> GetAssociatedProducts(int parentGroupedProductId, int storeId = 0, int vendorId = 0, bool showHidden = false)
         {
             var res = base.GetAssociatedProducts(parentGroupedProductId, storeId, vendorId, showHidden);
